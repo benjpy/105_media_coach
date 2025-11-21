@@ -1,0 +1,163 @@
+PressCoach — AI Journalist Interview Simulator (PRD)
+
+Project Name
+PressCoach — AI Journalist Interview Simulator
+
+Summary / Objective
+PressCoach simulates a live journalist interview using voice input. Founders answer verbally; the system uses Gemini models to transcribe, ask follow-up questions, assess responses, and provide PR evaluation. It also generates an AI portrait of the journalist and a fictional media outlet logo.
+
+Core User Value
+
+Practice high-pressure interviews safely.
+
+Improve clarity, credibility, and messaging.
+
+Receive actionable PR feedback.
+
+Become more media-ready.
+
+Tech Stack
+
+Python 3.10+
+
+Gemini API (Gemini 2.5 Pro, Flash, Flash Audio)
+
+Streamlit UI
+
+Pillow for images
+
+sounddevice/scipy for optional CLI recording
+
+User Flows
+
+5.1 Startup Flow
+
+User enters startup description.
+
+User selects persona, difficulty, and optional news context.
+
+System generates journalist portrait + outlet logo.
+
+Interview screen loads.
+
+5.2 Interview Loop
+
+Show journalist image + outlet logo.
+
+Journalist asks Question #1.
+
+User records voice.
+
+STT converts audio to text.
+
+Q&A saved.
+
+Gemini generates next question.
+
+8–12 questions total.
+
+5.3 Final Evaluation
+
+System evaluates transcript (strengths, weaknesses, scores, quotes, rewrites, headline, training plan).
+
+UI displays evaluation.
+
+Functional Requirements
+
+6.1 Inputs
+
+Startup description (required)
+
+Founder role (optional)
+
+Persona (required)
+
+Difficulty (required)
+
+News context (optional)
+
+6.2 Interview Engine
+
+Ask one question at a time.
+
+Follow-up based on prior answers.
+
+Persona + difficulty control tone.
+
+Use news context.
+
+6.3 Speech-to-Text
+
+Browser mic recording.
+
+WAV/FLAC temporary file.
+
+Gemini Flash Audio for transcription.
+
+6.4 Image Generation
+
+Journalist portrait (1024x1024 PNG)
+
+Fake news outlet logo (512x512 PNG)
+
+6.5 Transcript Storage
+Stored as array of objects:
+Q/A pairs.
+
+6.6 Evaluation Engine
+Generates strengths, weaknesses, scores, quotes, risky statements, rewrites, headline, 7-day plan.
+
+Prompts
+
+7.1 Journalist Agent Prompt
+Persona, difficulty, founder info, news context, and history provided.
+Asks one realistic question.
+
+7.2 Evaluator Agent Prompt
+Evaluates transcript and outputs structured feedback.
+
+7.3 Image Generation Prompts
+Journalist portrait + fake outlet logo.
+
+Non-Functional Requirements
+
+Fast response times.
+
+STT < 2.5s.
+
+Privacy: no persistent audio storage.
+
+Reliability with fallback to text input.
+
+Acceptance Criteria
+
+Voice recording and transcription.
+
+Persona/difficulty influence.
+
+Full transcript saved.
+
+Evaluation follows rubric.
+
+Journalist + outlet images displayed.
+
+MVP Milestones
+Phase 1: Core STT + Questions
+Phase 2: Transcript + Evaluation
+Phase 3: Visual Assets
+Phase 4: Polishing
+
+Deliverables
+
+app.py
+
+agents.py
+
+stt.py
+
+image_gen.py
+
+interview_engine.py
+
+requirements.txt
+
