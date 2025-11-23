@@ -1,3 +1,6 @@
+import datetime
+import os
+
 class InterviewSession:
     def __init__(self):
         self.transcript = [] # List of {'question': str, 'answer': str}
@@ -30,3 +33,24 @@ class InterviewSession:
 
     def end_session(self):
         self.is_active = False
+
+    def save_transcript(self):
+        if not self.transcript:
+            return
+
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        filename = f"startup_{timestamp}.txt"
+        
+        header = f"""Interviewer Type: {self.persona}
+Difficulty Level: {self.difficulty}
+News Context: {self.news_context}
+Startup Description: {self.startup_description}
+--------------------------------------------------
+"""
+        
+        transcript_text = ""
+        for i, turn in enumerate(self.transcript):
+            transcript_text += f"Q{i+1}: {turn['question']}\nA{i+1}: {turn['answer']}\n\n"
+            
+        with open(filename, "w") as f:
+            f.write(header + transcript_text)

@@ -1,4 +1,5 @@
 import os
+import datetime
 import google.generativeai as genai
 import json
 import streamlit as st
@@ -50,6 +51,11 @@ class JournalistAgent:
         history: List of dicts {'question': str, 'answer': str}
         """
         
+        # Log request
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open("requests.txt", "a") as f:
+            f.write(f"[{timestamp}] Persona: {self.persona}, History Length: {len(history)}\n")
+
         system_prompt = f"""
         You are a professional journalist conducting an interview with a startup founder.
         

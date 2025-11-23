@@ -56,6 +56,7 @@ with st.sidebar:
         start_btn = st.button("Start Interview", type="primary")
     else:
         if st.button("End Interview Early", type="secondary"):
+            st.session_state.session.save_transcript()
             st.session_state.session.is_active = False
             st.rerun()
 
@@ -107,28 +108,39 @@ if st.session_state.session.is_active:
                 st.write(turn['answer'])
 
         # Display Current Question
-        with st.chat_message("assistant", avatar=st.session_state.session.journalist_image):
-            st.write(st.session_state.session.current_question)
+        if st.session_state.session.current_question:
+            with st.chat_message("assistant", avatar=st.session_state.session.journalist_image):
+                st.write(st.session_state.session.current_question)
 
-        # Input for New Answer
-        with st.chat_message("user"):
-            audio_key = f"audio_{len(st.session_state.session.transcript)}"
-            audio_value = st.audio_input("Record your answer", key=audio_key)
-        
-        if audio_value:
-            with st.spinner("Transcribing and thinking..."):
-                # 1. Transcribe
-                audio_bytes = audio_value.read()
-                transcript_text = transcribe_audio(audio_bytes)
-                
-                # 2. Add to history
-                st.session_state.session.add_turn(st.session_state.session.current_question, transcript_text)
-                
-                # 3. Generate Next Question
-                next_q = st.session_state.journalist_agent.generate_question(st.session_state.session.transcript)
-                st.session_state.session.set_current_question(next_q)
-                
-                st.rerun()
+        # Handle Question Generation (if waiting)
+        if st.session_state.get("generating_next_q", False):
+            with st.chat_message("assistant", avatar=st.session_state.session.journalist_image):
+                with st.spinner("Thinking..."):
+                    next_q = st.session_state.journalist_agent.generate_question(st.session_state.session.transcript)
+                    st.session_state.session.set_current_question(next_q)
+                    st.session_state["generating_next_q"] = False
+                    st.rerun()
+
+        # Input for New Answer (only if not generating)
+        if not st.session_state.get("generating_next_q", False):
+            with st.chat_message("user"):
+                audio_key = f"audio_{len(st.session_state.session.transcript)}"
+                audio_value = st.audio_input("Record your answer", key=audio_key)
+            
+            if audio_value:
+                with st.spinner("Transcribing..."):
+                    # 1. Transcribe
+                    audio_bytes = audio_value.read()
+                    transcript_text = transcribe_audio(audio_bytes)
+                    
+                    # 2. Add to history
+                    st.session_state.session.add_turn(st.session_state.session.current_question, transcript_text)
+                    st.session_state.session.current_question = None # Clear current question as it's now in history
+                    
+                    # 3. Trigger Next Question Generation
+                    st.session_state["generating_next_q"] = True
+                    
+                    st.rerun()
 
 # View: Evaluation (Post-Interview)
 elif st.session_state.session.transcript:
