@@ -1,21 +1,21 @@
 import os
 import google.generativeai as genai
 import json
+import streamlit as st
 
 # Local version
 def configure_genai():
-    api_key = os.environ.get("GEMINI_API_KEY")
+    try:
+        # Try to get key from Streamlit secrets
+        api_key = st.secrets["GEMINI_API_KEY"]
+    except (FileNotFoundError, KeyError):
+        # Fallback to environment variable
+        api_key = os.environ.get("GEMINI_API_KEY")
+
     if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable not set")
+        raise ValueError("GEMINI_API_KEY not found in Streamlit secrets or environment variables.")
+
     genai.configure(api_key=api_key)
-
-import streamlit as st
-import google.generativeai as genai
-
-# Streamlit version
-# def configure_genai():
-#     api_key = st.secrets["GEMINI_API_KEY"]  # read from Streamlit Cloud secrets
-#     genai.configure(api_key=api_key)
 
 
 def generate_outlet_name(persona, startup_description):
