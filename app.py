@@ -199,6 +199,53 @@ elif st.session_state.session.transcript:
         for day in eval_data.get('training_plan', []):
             st.markdown(f"- {day}")
             
+        # Generate Report Text
+        report_text = f"""INTERVIEW REPORT
+================
+
+SETTINGS
+--------
+Startup Description: {st.session_state.session.startup_description}
+Journalist Persona: {st.session_state.session.persona}
+Difficulty: {st.session_state.session.difficulty}
+News Context: {st.session_state.session.news_context}
+
+EVALUATION
+----------
+Score: {score}/10
+Headline: {eval_data.get('headline', 'N/A')}
+
+Strengths:
+{chr(10).join(['- ' + s for s in eval_data.get('strengths', [])])}
+
+Weaknesses:
+{chr(10).join(['- ' + w for w in eval_data.get('weaknesses', [])])}
+
+Best Quotes:
+{chr(10).join(['- "' + q + '"' for q in eval_data.get('quotes', [])])}
+
+Risky Statements:
+{chr(10).join(['- "' + r + '"' for r in eval_data.get('risky_statements', [])])}
+
+Rewrites:
+{chr(10).join([f"- Original: {r.get('original')}{chr(10)}  Better: {r.get('better')}" for r in eval_data.get('rewrites', [])])}
+
+Training Plan:
+{chr(10).join(['- ' + t for t in eval_data.get('training_plan', [])])}
+
+TRANSCRIPT
+----------
+"""
+        for i, turn in enumerate(st.session_state.session.transcript):
+            report_text += f"Q{i+1}: {turn['question']}\nA{i+1}: {turn['answer']}\n\n"
+
+        st.download_button(
+            label="📥 Download Full Report",
+            data=report_text,
+            file_name="interview_report.txt",
+            mime="text/plain"
+        )
+            
     if st.button("Start New Interview"):
         st.session_state.session = InterviewSession()
         st.rerun()
