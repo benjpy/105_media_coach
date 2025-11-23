@@ -1,3 +1,0 @@
-we are building a robot that coats pipelines to carry hydrogen
-
-we make robots that automate pipetting in labs
