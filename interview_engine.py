@@ -9,6 +9,8 @@ class InterviewSession:
         self.outlet_name = ""
         self.journalist_image = None
         self.journalist_image_model = None
+        self.image_generation_status = "idle" # idle, generating, completed, failed
+        self.image_generation_error = None
         self.startup_description = ""
         self.persona = ""
         self.difficulty = ""
@@ -25,6 +27,8 @@ class InterviewSession:
         self.outlet_name = outlet_name
         self.journalist_image = None
         self.journalist_image_model = None
+        self.image_generation_status = "idle"
+        self.image_generation_error = None
         self.transcript = []
         self.is_active = True
         self.evaluation = None

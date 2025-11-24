@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 from google import genai
 from google.genai import types
 from PIL import Image
@@ -6,7 +7,13 @@ import io
 
 def generate_journalist_portrait(persona):
     """Generates a journalist portrait based on the persona."""
-    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+    # Try to get key from Streamlit secrets first, then environment
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    except (FileNotFoundError, KeyError):
+        api_key = os.environ.get("GEMINI_API_KEY")
+        
+    client = genai.Client(api_key=api_key)
     
     prompt = f"""
     Professional headshot of a journalist. 
