@@ -4,7 +4,7 @@ import threading
 from dotenv import load_dotenv
 from image_gen import generate_journalist_portrait
 from stt import transcribe_audio
-from agents import JournalistAgent, EvaluatorAgent, generate_interviewer_details
+from interview_agents import JournalistAgent, EvaluatorAgent, generate_interviewer_details
 from interview_engine import InterviewSession
 
 # Load environment variables
