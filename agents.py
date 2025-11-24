@@ -19,22 +19,31 @@ def configure_genai():
     genai.configure(api_key=api_key)
 
 
-def generate_outlet_name(persona, startup_description):
-    """Generates a fictional news outlet name."""
+def generate_interviewer_details(persona, startup_description):
+    """Generates a fictional journalist name and news outlet."""
     configure_genai()
     model = genai.GenerativeModel('gemini-2.5-flash')
     
     prompt = f"""
-    Generate a creative, realistic name for a news outlet based on the following:
+    Generate a creative, fictional journalist profile based on:
     Journalist Persona: {persona}
     Startup Topic: {startup_description}
     
-    The name should sound professional and fit the persona (e.g., TechCrunch style for tech, Forbes style for business).
-    Output ONLY the name.
+    Required Output (JSON):
+    {{
+        "name": "Full Name (include a subtle, harmless pun related to tech, news, or the persona)",
+        "outlet": "Name of a fictional news outlet (relevant to the startup's industry)"
+    }}
+    
+    Example Puns: "Justin Time", "Phil Space", "Barb Dwyer" (but make them sound professional enough for a journalist).
+    Output JSON ONLY.
     """
     
-    response = model.generate_content(prompt)
-    return response.text.strip()
+    response = model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
+    try:
+        return json.loads(response.text.strip())
+    except:
+        return {"name": "Alex P. Keats", "outlet": "The Daily Tech"}
 
 class JournalistAgent:
     def __init__(self, persona, difficulty, startup_description, news_context=None):

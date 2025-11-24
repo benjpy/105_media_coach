@@ -5,8 +5,10 @@ class InterviewSession:
     def __init__(self):
         self.transcript = [] # List of {'question': str, 'answer': str}
         self.current_question = None
+        self.journalist_name = ""
+        self.outlet_name = ""
         self.journalist_image = None
-        self.logo_image = None
+        self.journalist_image_model = None
         self.startup_description = ""
         self.persona = ""
         self.difficulty = ""
@@ -14,13 +16,15 @@ class InterviewSession:
         self.is_active = False
         self.evaluation = None
 
-    def start_session(self, startup_description, persona, difficulty, news_context, journalist_img, logo_img):
+    def start_session(self, startup_description, persona, difficulty, news_context, journalist_name, outlet_name):
         self.startup_description = startup_description
         self.persona = persona
         self.difficulty = difficulty
         self.news_context = news_context
-        self.journalist_image = journalist_img
-        self.logo_image = logo_img
+        self.journalist_name = journalist_name
+        self.outlet_name = outlet_name
+        self.journalist_image = None
+        self.journalist_image_model = None
         self.transcript = []
         self.is_active = True
         self.evaluation = None
