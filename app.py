@@ -15,7 +15,7 @@ load_dotenv()
 
 # Page Config
 st.set_page_config(
-    page_title="PressCoach",
+    page_title="PressCoach (beta)",
     page_icon="🎙️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -29,7 +29,15 @@ if 'journalist_agent' not in st.session_state:
 
 # Sidebar Inputs
 with st.sidebar:
-    st.title("🎙️ PressCoach")
+    st.title("🎙️ PressCoach (beta)")
+    
+    st.info(
+        "**Privacy & AI Notice**\\n"
+        "• No data is stored after your session.\\n"
+        "• Download your results anytime.\\n"
+        "• Powered by Google Gemini."
+    )
+
     st.markdown("### Setup Interview")
     
     # Load startup description from file if available
