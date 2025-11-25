@@ -65,6 +65,9 @@ with st.sidebar:
             st.session_state.session.is_active = False
             st.rerun()
 
+    st.markdown("---")
+    st.markdown("[Questions & Comments](mailto:ben@sosv.com)")
+
 # Main Logic
 
 def start_interview():
