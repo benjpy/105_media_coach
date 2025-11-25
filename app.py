@@ -32,10 +32,11 @@ with st.sidebar:
     st.title("🎙️ PressCoach (beta)")
     
     st.info(
-        "**Privacy & AI Notice**\\n"
-        "• No data is stored after your session.\\n"
-        "• Download your results anytime.\\n"
-        "• Powered by Google Gemini."
+        """**Privacy & AI Notice**
+        
+• No data is stored after your session.
+• Download your results anytime.
+• Powered by Google Gemini."""
     )
 
     st.markdown("### Setup Interview")
