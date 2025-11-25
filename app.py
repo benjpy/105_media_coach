@@ -149,7 +149,8 @@ elif st.session_state.session.transcript:
             evaluator = EvaluatorAgent()
             evaluation = evaluator.evaluate_interview(
                 st.session_state.session.transcript,
-                st.session_state.session.startup_description
+                st.session_state.session.startup_description,
+                st.session_state.session.difficulty
             )
             st.session_state.session.evaluation = evaluation
     

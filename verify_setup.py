@@ -8,9 +8,8 @@ try:
     from PIL import Image
     from dotenv import load_dotenv
     
-    from image_gen import generate_assets
     from stt import transcribe_audio
-    from agents import JournalistAgent, EvaluatorAgent
+    from interview_agents import JournalistAgent, EvaluatorAgent
     from interview_engine import InterviewSession
     
     print("Modules imported successfully.")

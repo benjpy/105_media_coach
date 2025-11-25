@@ -98,10 +98,11 @@ class EvaluatorAgent:
         configure_genai()
         self.model = genai.GenerativeModel('gemini-2.5-flash')
 
-    def evaluate_interview(self, transcript, startup_description):
+    def evaluate_interview(self, transcript, startup_description, difficulty="Medium"):
         """
         Evaluates the full transcript.
         transcript: List of dicts {'question': str, 'answer': str}
+        difficulty: str (Easy, Medium, Hard, Nightmare)
         """
         
         transcript_text = ""
@@ -112,9 +113,15 @@ class EvaluatorAgent:
         You are an expert PR consultant and media coach. Evaluate the following interview transcript for a startup founder.
         
         **Startup Description:** {startup_description}
+        **Difficulty Level:** {difficulty}
         
         **Transcript:**
         {transcript_text}
+        
+        **Scoring Instructions based on Difficulty ({difficulty}):**
+        - **Easy**: Be encouraging and lenient. Reasonable answers should score 6-8. Only penalize major mistakes or silence. A score of 5 or below means they failed to answer basic questions.
+        - **Medium**: Standard professional evaluation. Expect clear, concise answers.
+        - **Hard/Nightmare**: Be strict. Penalize dodging, fluff, or lack of specifics. High scores (8+) require exceptional performance.
         
         **Task:**
         Analyze the founder's performance and provide a structured evaluation in JSON format with the following fields:
