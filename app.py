@@ -31,14 +31,6 @@ if 'journalist_agent' not in st.session_state:
 with st.sidebar:
     st.title("🎙️ PressCoach (beta)")
     
-    st.info(
-        """**Privacy & AI Notice**
-        
-• No data is stored after your session.
-• Download your results anytime.
-• Powered by Google Gemini."""
-    )
-
     st.markdown("### Setup Interview")
     
     # Load startup description from file if available
@@ -274,4 +266,12 @@ else:
     3. **Feedback**: Get a detailed PR evaluation and score.
     
     👈 **Start by filling out the sidebar.**
+    """)
+
+    st.info("""
+    **Privacy & AI Notice**
+    
+    - No data is stored after your session.
+    - Download your results anytime.
+    - Powered by Google Gemini.
     """)
