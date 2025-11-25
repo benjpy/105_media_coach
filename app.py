@@ -271,7 +271,7 @@ else:
     st.info("""
     **Privacy & AI Notice**
     
-    - No data is stored after your session.
-    - Download your results anytime.
+    - Download your results at the end.
+    - Your data is not stored after your session.
     - Powered by Google Gemini.
     """)
